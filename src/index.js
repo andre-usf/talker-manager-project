@@ -5,6 +5,8 @@ const generateToken = require('./generateToken');
 const validateLogin = require('./middlewares/validateLogin');
 const validateToken = require('./middlewares/validateToken');
 const validateName = require('./middlewares/validateName');
+const validateAge = require('./middlewares/validateAge');
+const { validateTalk, validateTalkRate } = require('./middlewares/validateTalk');
 
 const app = express();
 app.use(express.json());
@@ -38,6 +40,17 @@ app.post('/login', validateLogin, async (_req, res) => {
   return res.status(200).json({ token });
 });
 
-app.post('/talker', validateToken, validateName, async (_req, res) => {
-  return res.status(200).json({ oi: 'oi' });
+app.post('/talker', validateToken, validateName, 
+validateAge, validateTalk, validateTalkRate, async (req, res) => {
+  const { id, name, age, talk } = req.body;
+  const { watchedAt, rate } = talk;
+  return res.status(201).json({
+    id,
+    name,
+    age,
+    talk: {
+      watchedAt,
+      rate,
+    },
+  });
 });

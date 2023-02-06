@@ -1,6 +1,6 @@
 const validateEmailRegex = (email) => {
   const regexEmail = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
-  return email.match(regexEmail);
+  return regexEmail.test(email);
 };
 
 const validatePasswordLength = (password) => password.length >= 6;
