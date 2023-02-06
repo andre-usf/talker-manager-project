@@ -16,7 +16,22 @@ const getTalkerById = async (id) => {
   return talkersById;
 };
 
+const getLastTalkerId = async () => {
+  const talkersArray = await readFile();
+  const lastId = talkersArray[talkersArray.length - 1].id;
+  return lastId;
+};
+
+const writeFile = async (talker) => {
+  const originalFileArray = await readFile();
+  originalFileArray.push(talker);
+  const file = await fs.writeFile('./src/talker.json', JSON.stringify(originalFileArray));
+  return file;
+};
+
 module.exports = {
   getAllTalkers,
   getTalkerById,
+  getLastTalkerId,
+  writeFile,
 };

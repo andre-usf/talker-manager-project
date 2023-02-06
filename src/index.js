@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getAllTalkers, getTalkerById } = require('./talkerManager');
+const { getAllTalkers, getTalkerById, writeFile, getLastTalkerId } = require('./talkerManager');
 const generateToken = require('./generateToken');
 const validateLogin = require('./middlewares/validateLogin');
 const validateToken = require('./middlewares/validateToken');
@@ -42,15 +42,10 @@ app.post('/login', validateLogin, async (_req, res) => {
 
 app.post('/talker', validateToken, validateName, 
 validateAge, validateTalk, validateTalkRate, async (req, res) => {
-  const { id, name, age, talk } = req.body;
+  const { name, age, talk } = req.body;
   const { watchedAt, rate } = talk;
-  return res.status(201).json({
-    id,
-    name,
-    age,
-    talk: {
-      watchedAt,
-      rate,
-    },
-  });
+  const id = await getLastTalkerId() + 1;
+  const talker = { name, age, id, talk: { watchedAt, rate } };
+  await writeFile(talker);
+  return res.status(201).json({ age, id, name, talk: { watchedAt, rate } });
 });
