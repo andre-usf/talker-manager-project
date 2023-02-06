@@ -2,6 +2,7 @@ const express = require('express');
 
 const { getAllTalkers, getTalkerById } = require('./talkerManager');
 const generateToken = require('./generateToken');
+const validateLogin = require('./middlewares/validateLogin');
 
 const app = express();
 app.use(express.json());
@@ -30,7 +31,7 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(200).json(talker);
 });
 
-app.post('/login', async (_req, res) => {
+app.post('/login', validateLogin, async (_req, res) => {
   const token = await generateToken();
   return res.status(200).json({ token });
 });
