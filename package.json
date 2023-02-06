@@ -8,7 +8,7 @@
     "test:mocha": "nyc --all --include src mocha src/tests/integration/*.js --exit",
     "restore": "cp __tests__/seed.json src/talker.json",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js --ignore 'src/talker.json'",
+    "dev": "nodemon src/index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
   "keywords": [],
