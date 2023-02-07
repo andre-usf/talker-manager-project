@@ -44,10 +44,25 @@ const editFile = async (talker, id) => {
   return file;
 };
 
+const deleteTalkerInFile = async (id) => {
+  const originalFileArray = await readFile();
+  const talker = originalFileArray.find((t) => t.id === id);
+  console.log(talker);
+  if (talker) {
+    console.log('entrou');
+    const index = originalFileArray.indexOf(talker);
+    originalFileArray.splice(index, 1);
+  }
+  console.log(originalFileArray);
+  const file = await fs.writeFile('./src/talker.json', JSON.stringify(originalFileArray));
+  return file;
+};
+
 module.exports = {
   getAllTalkers,
   getTalkerById,
   getLastTalkerId,
   writeFile,
   editFile,
+  deleteTalkerInFile,
 };
