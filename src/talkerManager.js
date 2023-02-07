@@ -1,7 +1,9 @@
 const fs = require('fs').promises;
 
+const PATH = './src/talker.json';
+
 const readFile = async () => {
-  const file = await fs.readFile('./src/talker.json', 'utf-8');
+  const file = await fs.readFile(PATH, 'utf-8');
   return JSON.parse(file);
 };
 
@@ -25,7 +27,7 @@ const getLastTalkerId = async () => {
 const writeFile = async (talker) => {
   const originalFileArray = await readFile();
   originalFileArray.push(talker);
-  const file = await fs.writeFile('./src/talker.json', JSON.stringify(originalFileArray));
+  const file = await fs.writeFile(PATH, JSON.stringify(originalFileArray));
   return file;
 };
 
@@ -40,21 +42,25 @@ const editFile = async (talker, id) => {
       originalFileArray[index].talk.rate = talker.talk.rate;
     }
   }
-  const file = await fs.writeFile('./src/talker.json', JSON.stringify(originalFileArray));
+  const file = await fs.writeFile(PATH, JSON.stringify(originalFileArray));
   return file;
 };
 
 const deleteTalkerInFile = async (id) => {
   const originalFileArray = await readFile();
   const talker = originalFileArray.find((t) => t.id === id);
-  console.log(talker);
   if (talker) {
-    console.log('entrou');
     const index = originalFileArray.indexOf(talker);
     originalFileArray.splice(index, 1);
   }
-  console.log(originalFileArray);
-  const file = await fs.writeFile('./src/talker.json', JSON.stringify(originalFileArray));
+  const file = await fs.writeFile(PATH, JSON.stringify(originalFileArray));
+  return file;
+};
+
+const getBySearch = async (search) => {
+  const originalFileArray = await readFile();
+  const result = originalFileArray.filter((talker) => talker.name.includes(search));
+  const file = await fs.writeFile(PATH, JSON.stringify(result));
   return file;
 };
 
@@ -65,4 +71,5 @@ module.exports = {
   writeFile,
   editFile,
   deleteTalkerInFile,
+  getBySearch,
 };

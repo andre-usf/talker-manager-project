@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { getAllTalkers, getTalkerById, writeFile, 
-  getLastTalkerId, editFile, deleteTalkerInFile } = require('./talkerManager');
+  getLastTalkerId, editFile, deleteTalkerInFile, getBySearch } = require('./talkerManager');
 const generateToken = require('./generateToken');
 const validateLogin = require('./middlewares/validateLogin');
 const validateToken = require('./middlewares/validateToken');
@@ -27,6 +27,16 @@ app.listen(PORT, () => {
 app.get('/talker', async (_req, res) => {
   const talkers = await getAllTalkers();
   return res.status(200).json(talkers);
+});
+
+app.get('/talker/search', validateToken, async (req, res) => {
+  const { q } = req.query;
+  const search = await getBySearch(q);
+  if (!search || search.length === 0) {
+    const allTalkers = await getAllTalkers();
+    return res.status(200).json(allTalkers);
+  }
+  return res.status(200).json(search);
 });
 
 app.get('/talker/:id', async (req, res) => {
