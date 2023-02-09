@@ -1,14 +1,23 @@
 const express = require('express');
 
-const { getAllTalkers, getTalkerById, writeTalkerInFile, 
-  getLastTalkerId, editTalkerInFile, deleteTalkerInFile, 
-  getTalkerBySearch } = require('./talkerManager');
+const { 
+  getAllTalkers, 
+  getTalkerById, 
+  writeTalkerInFile, 
+  getLastTalkerId, 
+  editTalkerInFile, 
+  deleteTalkerInFile, 
+  getTalkerBySearch,
+ } = require('./talkerManager');
 const generateToken = require('./utils/generateToken');
-const validateLogin = require('./middlewares/validateLogin');
-const validateToken = require('./middlewares/validateToken');
-const validateName = require('./middlewares/validateName');
-const validateAge = require('./middlewares/validateAge');
-const { validateTalk, validateTalkRate } = require('./middlewares/validateTalk');
+const { 
+  validateLogin, 
+  validateToken, 
+  validateName,
+  validateAge, 
+  validateTalk, 
+  validateTalkRate,
+} = require('./middlewares');
 
 const app = express();
 app.use(express.json());
