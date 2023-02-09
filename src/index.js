@@ -3,7 +3,7 @@ const express = require('express');
 const { getAllTalkers, getTalkerById, writeTalkerInFile, 
   getLastTalkerId, editTalkerInFile, deleteTalkerInFile, 
   getTalkerBySearch } = require('./talkerManager');
-const generateToken = require('./generateToken');
+const generateToken = require('./utils/generateToken');
 const validateLogin = require('./middlewares/validateLogin');
 const validateToken = require('./middlewares/validateToken');
 const validateName = require('./middlewares/validateName');
