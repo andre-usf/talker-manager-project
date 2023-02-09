@@ -1,7 +1,8 @@
 const express = require('express');
 
-const { getAllTalkers, getTalkerById, writeFile, 
-  getLastTalkerId, editFile, deleteTalkerInFile, getBySearch } = require('./talkerManager');
+const { getAllTalkers, getTalkerById, writeTalkerInFile, 
+  getLastTalkerId, editTalkerInFile, deleteTalkerInFile, 
+  getTalkerBySearch } = require('./talkerManager');
 const generateToken = require('./generateToken');
 const validateLogin = require('./middlewares/validateLogin');
 const validateToken = require('./middlewares/validateToken');
@@ -31,7 +32,7 @@ app.get('/talker', async (_req, res) => {
 
 app.get('/talker/search', validateToken, async (req, res) => {
   const { q } = req.query;
-  const search = await getBySearch(q);
+  const search = await getTalkerBySearch(q);
   if (!search || search.length === 0) {
     const allTalkers = await getAllTalkers();
     return res.status(200).json(allTalkers);
@@ -57,7 +58,7 @@ validateAge, validateTalk, validateTalkRate, async (req, res) => {
   const { watchedAt, rate } = talk;
   const id = await getLastTalkerId() + 1;
   const talker = { name, age, id, talk: { watchedAt, rate } };
-  await writeFile(talker);
+  await writeTalkerInFile(talker);
   return res.status(201).json({ age, id, name, talk: { watchedAt, rate } });
 });
 
@@ -68,7 +69,7 @@ validateAge, validateTalk, validateTalkRate, async (req, res) => {
   const { name, age, talk } = req.body;
   const { watchedAt, rate } = talk;
   const talker = { name, age, id: numberId, talk: { watchedAt, rate } };
-  await editFile(talker, numberId);
+  await editTalkerInFile(talker, numberId);
   return res.status(200).json({ age, id: numberId, name, talk: { watchedAt, rate } });
 });
 
