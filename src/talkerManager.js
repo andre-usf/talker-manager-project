@@ -34,15 +34,8 @@ const writeTalkerInFile = async (talker) => {
 
 const editTalkerInFile = async (talker, id) => {
   const originalFileArray = await readFile(PATH);
-
-  for (let index = 0; index < originalFileArray.length; index += 1) {
-    if (originalFileArray[index].id === id) {
-      originalFileArray[index].name = talker.name;
-      originalFileArray[index].age = talker.age;
-      originalFileArray[index].talk.watchedAt = talker.talk.watchedAt;
-      originalFileArray[index].talk.rate = talker.talk.rate;
-    }
-  }
+  const index = originalFileArray.findIndex((t) => t.id === id);
+  originalFileArray[index] = { id, ...talker };
   const file = await writeFile(PATH, originalFileArray);
   return file;
 };
