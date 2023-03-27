@@ -28,7 +28,7 @@ git@github.com:andre-usf/talker-manager-project.git
 2. Entre no diretório criado:
 
 ```
-talker-manager-project
+cd talker-manager-project
 ```
 
 3. Inicie o docker compose:
